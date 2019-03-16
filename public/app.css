@@ -1,0 +1,26 @@
+:root {
+  --iphonex-width: 375px;
+  --iphonex-height: 812px;
+}
+
+.rootContainer {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid #ccc;
+  width: var(--iphonex-width);
+  height: var(--iphonex-height);
+}
+  
+.rootContainer canvas {
+    /**
+     * Position absolute provides canvases to be able
+     * to be layered on top of each other
+     * Be sure to remember a z-index!
+     */
+    position: absolute;
+    /**
+     * Set transparent to let any other canvases render through
+     */
+    background-color: transparent;
+}

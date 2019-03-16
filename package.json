@@ -1,0 +1,12 @@
+{
+  "name": "chart",
+  "version": "1.0.0",
+  "description": "",
+  "main": "static-server.js",
+  "scripts": {
+    "start": "node static-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pavlo <chebotuk@gmail.com> (chebotiuk.github.io)",
+  "license": "ISC"
+}
