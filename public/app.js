@@ -3,7 +3,6 @@ import { renderCanvas, Canvas, CanvasComponent } from './lib/canvasComponents.js
 class Line extends CanvasComponent {
   constructor (props) {
     super(props)
-    this.props = props
   }
 
   render () {
@@ -17,12 +16,15 @@ class Line extends CanvasComponent {
 class RootComponent extends Canvas {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      color: 'red'
+    }
   }
 
   renderLayers () {
+    setTimeout(() => { this.setState({ color: 'yellow' }) }, 3000)
     return [
-      { id: 'Line', component: Line, props: { color: 'red' } }
+      { id: 'Line', component: Line, props: { color: this.state.color } }
     ]
   }
 }

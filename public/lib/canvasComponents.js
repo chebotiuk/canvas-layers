@@ -31,7 +31,7 @@ export class CanvasComponent {
 
   _mount () {
     const { width, height, node } = this.props
-    if (this.isMounted) this.canvasNode.clearRect(0, 0, width, height)
+    if (this.isMounted) this.ctx.clearRect(0, 0, width, height)
     this.render()
     if (!this.isMounted) node.appendChild(this.canvas)
     if (!this.isMounted) this._setMountStatus(true)
@@ -60,7 +60,7 @@ export class Canvas {
   _prepareProps () {
     const propsMap = {}
     this.renderLayers().forEach((layer, i) => {
-      propsMap[layer || i] = layer.props
+      propsMap[layer.id || i] = layer.props
     })
     return propsMap
   }
