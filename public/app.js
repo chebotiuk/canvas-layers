@@ -1,4 +1,4 @@
-import { renderCanvas, Canvas, CanvasComponent } from './lib/lib.js'
+import { renderCanvas, Canvas, CanvasComponent } from './lib/canvasComponents.js'
 
 class Line extends CanvasComponent {
   constructor (props) {
