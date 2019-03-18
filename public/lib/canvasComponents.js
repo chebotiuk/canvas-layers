@@ -31,6 +31,7 @@ export class CanvasComponent {
     this.render();
     node.appendChild(this.canvas);
     this._setMountStatus(true);
+    if (this.componentDidMount) this.componentDidMount();
   }
 
   _forceUpdate () {
@@ -38,6 +39,7 @@ export class CanvasComponent {
 
     this.ctx.clearRect(0, 0, width, height);
     this.render();
+    if (this.componentDidUpdate) this.componentDidUpdate();
   }
 
   setState (newState) {
@@ -49,6 +51,14 @@ export class CanvasComponent {
   setProps (props) {
     this.previousProps = this.props;
     this.props = props;
+    if (this.shouldComponentUpdate) {
+      const updateRequired = this.shouldComponentUpdate();
+      if (typeof updateRequired !== 'boolean') throw new Error('shouldComponentUpdate should return boolean');
+
+      if (this.shouldComponentUpdate()) return this._forceUpdate();
+      return;
+    }
+
     if (!objectShallowEquals(this.props, this.previousProps)) this._forceUpdate();
   }
 }
@@ -66,11 +76,10 @@ export class Canvas {
   setState (newState) {
     this.state = Object.assign(this.state, newState);
     this.stateObservable.notify(this._prepareProps());
+    if (this.componentDidUpdate) this.componentDidUpdate()
   }
 
   _prepareProps () {
-    console.log(this.renderLayers())
-
     const propsMap = {};
     this.renderLayers().forEach((layer, i) => {
       propsMap[layer.id || i] = layer.props;
