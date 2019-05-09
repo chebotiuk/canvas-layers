@@ -1,20 +1,28 @@
-import { CanvasComponent } from '../lib/canvasComponents.js'
+import { CanvasComponent } from '../lib/canvasComponents.js';
+import { scale } from '../lib/math.js';
 
 export class Chart extends CanvasComponent {
   constructor (props) {
     super(props);
   }
 
-  componentDidUpdate () {
-    console.log(this.props)
-  }
-
   render () {
-    if (this.props.data === null) return
+    const { dates, values, color } = this.props
+    if (!values) return
 
-    this.ctx.fillStyle = this.props.color;
-    this.ctx.lineWidth = 10;
-    this.ctx.rect(10, 10, this.props.x, this.props.y);
-    this.ctx.fill();
+    dates.shift();
+    values.shift();
+
+    const { height, width } = this.canvas
+    const scaledDates = scale(dates, [0, width]);
+    const scaledValues = scale(values, [0, height]);
+
+    this.ctx.strokeStyle = color;
+    this.ctx.beginPath();
+    this.ctx.moveTo(0, height);
+    scaledDates.forEach((date, i) => {
+      this.ctx.lineTo(date, height - scaledValues[i]);
+    });
+    this.ctx.stroke();
   }
 }

@@ -6,15 +6,15 @@ class RootComponent extends Canvas {
   constructor (props) {
     super(props);
     this.state = {
-      chartIndex: 0,
-      chartData: null
+      chartIndex: 0
     };
   }
 
   fetchChartData (index) {
     getChartByIndex(index)
       .then(chartData => {
-        this.setState({ chartIndex: index, chartData })
+        const newState = Object.assign({ chartIndex: index }, chartData)
+        this.setState(newState)
       })
   }
 
@@ -23,11 +23,32 @@ class RootComponent extends Canvas {
   }
 
   renderLayers () {
+    const [dates, y0, y1] = this.state.columns || []
+    const { colors } = this.state
+    console.log(this.state)
+
     return [
-      { id: 'Chart', component: Chart, props: { color: this.state.color, x: 150, y: 150, data: this.state.chartData } }
+      {
+        id: 'y0',
+        component: Chart,
+        props: {
+          dates: dates || [],
+          values: y0 || [],
+          color: colors && colors['y0']
+        }
+      },
+      {
+        id: 'y1',
+        component: Chart,
+        props: {
+          dates: dates || [],
+          values: y1 || [],
+          color: colors && colors['y1']
+        }
+      }
     ];
   }
 }
 
 const root = document.getElementById('root');
-renderCanvas(root, new RootComponent({ width: 375, height: 812 }));
+renderCanvas(root, new RootComponent({ width: 375, height: 375 }));
